@@ -109,6 +109,14 @@ app.get("/saved", function(req, res) {
 		})
 })
 
+app.get("/note/delete/:id", function(req, res) {
+	db.Note
+		.remove({ _id: req.params.id })
+		.then(function(dbNote) {
+			res.send("Done")
+		})
+})
+
 // Post route to save an article:
 app.post("/articles/save/:id", function(req, res) {
 	db.Article.update({ _id: req.params.id }, { $set: {saved: true }})

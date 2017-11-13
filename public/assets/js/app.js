@@ -54,10 +54,16 @@ $(".viewnotes").on("click", function() {
 		method: "GET",
 		url: "/articles/" + thisId
 	}).done(function(data) {
-		console.log(data.note.body);
-		$("#notebody").html("<ol><li>" + data.note.body + "</li></ol>")
+		$("#notebody").html("<ol><li>" + data.note.body + "<button id='xbtn' data-id='" + data.note._id + "'> x </button></li></ol>")
 	})
 })
 
-
-
+$(document.body).on('click', '#xbtn', function() {
+	var thisId = $(this).attr("data-id");
+	$.ajax({
+		method: "GET",
+		url: "/note/delete/" + thisId
+	}).done(function(data) {
+		location.reload();
+	})
+})

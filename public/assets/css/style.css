@@ -49,6 +49,10 @@ p {
 	margin-bottom: 5px;
 }
 
+#xbtn {
+    margin-left: 9px;
+}
+
 /*Modal Styling: */
 	.modal-footer {
 		border-top: 0px;
