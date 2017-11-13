@@ -8,7 +8,7 @@
 	
   {{!-- Our each loop that creates a row for each article in our DB: --}}
 	{{#each this}}
-
+  {{#if this._id}}
 	<div class="row articlerow">
 		<div class="col-2.5">
 			<img class="articleimages" src="{{image}}">
@@ -32,7 +32,7 @@
 	</div>
 
 	<hr>
-	
+	{{/if}}
 	{{/each}}
 
 </div>

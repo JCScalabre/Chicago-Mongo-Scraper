@@ -1,3 +1,13 @@
+// When the scrape button is clicked:
+$("#scrapebutton").on("click", function() {
+	$.ajax({
+		method: "GET",
+		url: "/scrape"
+	}).done(function(){
+		location.reload();
+	})
+});
+
 // When the save button is clicked:
 $(".save").on("click", function() {
 	var thisId = $(this).attr("data-id");
@@ -5,9 +15,7 @@ $(".save").on("click", function() {
 	$.ajax({
 		method: "POST",
 		url: "/articles/save/" + thisId,
-	}).done(function() {
-		alert("Article seccessfully saved!\n(Alerts will be replaced with nice modals if I have time)");
-	})
+	}).done(function() {})
 })
 
 // When the unsave button is clicked: 
