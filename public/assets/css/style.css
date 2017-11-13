@@ -1,0 +1,51 @@
+.container {
+	width: 70%
+}
+
+.col-2 {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+h4 {
+	margin-top: 4px;
+}
+
+.background {
+	width: 100%;
+}
+
+.articlerow {
+	/*border: 2px solid red;*/
+}
+
+.articleimages {
+	width: 100%
+}
+
+.footer {
+	text-align: center;
+	margin-top: 80px;
+}
+
+.btn {
+	border-radius: 0px;
+}
+
+.unsave, .addnote, .viewnotes {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.addnote, .viewnotes {
+	width: 126.2px;
+}
+
+p {
+	margin-bottom: 5px;
+}
+
+/*Modal Styling: */
+	.modal-footer {
+		border-top: 0px;
+	}
