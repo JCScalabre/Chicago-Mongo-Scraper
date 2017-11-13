@@ -8,6 +8,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = process.env.PORT || 3000;
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 // Initialize Express
 var app = express();
@@ -33,18 +34,11 @@ app.use(bodyParser.json());
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/MongoScraper", {
+mongoose.connect(MONGODB_URI, {
 	useMongoClient: true
 });
 
-app.get("/saved", function(req, res) {
-	db.Article
-		.find({ saved: true })
-		.then(function(dbSavedArticles) {
-			res.render("saved", dbSavedArticles)
-		})
-})
-
+// Render index handlebar:
 app.get("/", function(req, res) {
 	db.Article
 		.find()
@@ -53,6 +47,7 @@ app.get("/", function(req, res) {
 		})
 })
 
+// Scrape request:
 app.get("/scrape", function(req, res) {
 	request("https://chicago.suntimes.com/section/news/", function(error, response, html) {
 
@@ -81,12 +76,12 @@ app.get("/scrape", function(req, res) {
 			// return i < 9;
 		});
 		console.log(results);
-		// db.Article.remove({});
 		db.Article.create(results);
 	});
 	res.send("Scrape Complete");
 });
 
+// Get all articles in our DB:
 app.get("/articles", function(req, res) {
 	db.Article
 		.find()
@@ -95,6 +90,7 @@ app.get("/articles", function(req, res) {
 		});
 });
 
+// Get one article using its ID from DB:
 app.get("/articles/:id", function(req, res) {
 	db.Article
 		.findOne({ _id: req.params.id })
@@ -104,6 +100,16 @@ app.get("/articles/:id", function(req, res) {
 		});
 });
 
+// Get articles where saved boolean is true:
+app.get("/saved", function(req, res) {
+	db.Article
+		.find({ saved: true })
+		.then(function(dbSavedArticles) {
+			res.render("saved", dbSavedArticles)
+		})
+})
+
+// Post route to save an article:
 app.post("/articles/save/:id", function(req, res) {
 	db.Article.update({ _id: req.params.id }, { $set: {saved: true }})
 	.then(function(dbArticle) {
@@ -111,6 +117,7 @@ app.post("/articles/save/:id", function(req, res) {
 	});
 });
 
+// Post route to unsave an article:
 app.post("/articles/unsave/:id", function(req, res) {
 	db.Article.update({ _id: req.params.id }, { $set: {saved: false }})
 	.then(function(dbArticle) {
@@ -118,6 +125,7 @@ app.post("/articles/unsave/:id", function(req, res) {
 	});
 });
 
+// Post route to create a new note and insert it into article document:
 app.post("/articles/:id", function(req, res) {
 	db.Note
 		.create(req.body)
